@@ -1,0 +1,1188 @@
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_i2f
+  20              		.global	__aeabi_f2d
+  21              		.global	__aeabi_dmul
+  22              		.global	__aeabi_ddiv
+  23              		.global	__aeabi_d2f
+  24              		.global	__aeabi_fmul
+  25              		.global	__aeabi_d2uiz
+  26              		.global	__aeabi_fcmpge
+  27              		.section	.text.main,"ax",%progbits
+  28              		.align	2
+  29              		.global	main
+  30              		.thumb
+  31              		.thumb_func
+  32              		.type	main, %function
+  33              	main:
+  34              	.LFB64:
+  35              		.file 1 "main.c"
+   1:main.c        **** //ADC VOLTAGE CONTROL
+   2:main.c        **** 
+   3:main.c        **** #include "project.h"
+   4:main.c        **** #include <stdio.h>
+   5:main.c        **** 
+   6:main.c        **** int main(void)
+   7:main.c        **** {
+  36              		.loc 1 7 0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 16
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+  40 0000 10B5     		push	{r4, lr}
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 4, -8
+  43              		.cfi_offset 14, -4
+  44 0002 84B0     		sub	sp, sp, #16
+  45              		.cfi_def_cfa_offset 24
+   8:main.c        ****     CyGlobalIntEnable;
+  46              		.loc 1 8 0
+  47              		.syntax unified
+  48              	@ 8 "main.c" 1
+  49 0004 62B6     		CPSIE   i
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 2
+
+
+  50              	@ 0 "" 2
+   9:main.c        ****     
+  10:main.c        ****     int16 pot_data;
+  11:main.c        ****     float voltage;
+  12:main.c        ****     char voltageString[16];
+  13:main.c        ****     LCD_Start();
+  51              		.loc 1 13 0
+  52              		.thumb
+  53              		.syntax unified
+  54 0006 FFF7FEFF 		bl	LCD_Start
+  55              	.LVL0:
+  14:main.c        ****     LCD_Position(0, 0);
+  56              		.loc 1 14 0
+  57 000a 0021     		movs	r1, #0
+  58 000c 0846     		mov	r0, r1
+  59 000e FFF7FEFF 		bl	LCD_Position
+  60              	.LVL1:
+  15:main.c        ****     LCD_PrintString("POT VOLTAGE");
+  61              		.loc 1 15 0
+  62 0012 3148     		ldr	r0, .L9+8
+  63 0014 FFF7FEFF 		bl	LCD_PrintString
+  64              	.LVL2:
+  16:main.c        ****     ADC_SAR_Start();
+  65              		.loc 1 16 0
+  66 0018 FFF7FEFF 		bl	ADC_SAR_Start
+  67              	.LVL3:
+  17:main.c        ****     ADC_SAR_StartConvert();
+  68              		.loc 1 17 0
+  69 001c FFF7FEFF 		bl	ADC_SAR_StartConvert
+  70              	.LVL4:
+  71              	.L5:
+  18:main.c        ****     uint8 brightness;
+  19:main.c        ****     
+  20:main.c        ****     for(;;)
+  21:main.c        ****     {
+  22:main.c        ****         ADC_SAR_IsEndConversion(ADC_SAR_WAIT_FOR_RESULT);
+  72              		.loc 1 22 0
+  73 0020 0020     		movs	r0, #0
+  74 0022 FFF7FEFF 		bl	ADC_SAR_IsEndConversion
+  75              	.LVL5:
+  23:main.c        ****         pot_data = ADC_SAR_GetResult16();
+  76              		.loc 1 23 0
+  77 0026 FFF7FEFF 		bl	ADC_SAR_GetResult16
+  78              	.LVL6:
+  24:main.c        ****         voltage = (float) pot_data * 5.0 / 255.0;
+  79              		.loc 1 24 0
+  80 002a FFF7FEFF 		bl	__aeabi_i2f
+  81              	.LVL7:
+  82 002e FFF7FEFF 		bl	__aeabi_f2d
+  83              	.LVL8:
+  84 0032 0022     		movs	r2, #0
+  85 0034 294B     		ldr	r3, .L9+12
+  86 0036 FFF7FEFF 		bl	__aeabi_dmul
+  87              	.LVL9:
+  88 003a 25A3     		adr	r3, .L9
+  89 003c D3E90023 		ldrd	r2, [r3]
+  90 0040 FFF7FEFF 		bl	__aeabi_ddiv
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 3
+
+
+  91              	.LVL10:
+  92 0044 FFF7FEFF 		bl	__aeabi_d2f
+  93              	.LVL11:
+  94 0048 0446     		mov	r4, r0
+  95              	.LVL12:
+  25:main.c        ****         sprintf(voltageString, "Voltage: %.2f V", voltage);
+  96              		.loc 1 25 0
+  97 004a FFF7FEFF 		bl	__aeabi_f2d
+  98              	.LVL13:
+  99 004e 0246     		mov	r2, r0
+ 100 0050 0B46     		mov	r3, r1
+ 101 0052 2349     		ldr	r1, .L9+16
+ 102 0054 6846     		mov	r0, sp
+ 103 0056 FFF7FEFF 		bl	sprintf
+ 104              	.LVL14:
+  26:main.c        ****         
+  27:main.c        ****         LCD_Position(1, 0);
+ 105              		.loc 1 27 0
+ 106 005a 0021     		movs	r1, #0
+ 107 005c 0120     		movs	r0, #1
+ 108 005e FFF7FEFF 		bl	LCD_Position
+ 109              	.LVL15:
+  28:main.c        ****         LCD_PrintString(voltageString);
+ 110              		.loc 1 28 0
+ 111 0062 6846     		mov	r0, sp
+ 112 0064 FFF7FEFF 		bl	LCD_PrintString
+ 113              	.LVL16:
+  29:main.c        ****         
+  30:main.c        ****         brightness = (uint8)(255 * voltage / 5.0);
+ 114              		.loc 1 30 0
+ 115 0068 1E49     		ldr	r1, .L9+20
+ 116 006a 2046     		mov	r0, r4
+ 117 006c FFF7FEFF 		bl	__aeabi_fmul
+ 118              	.LVL17:
+ 119 0070 FFF7FEFF 		bl	__aeabi_f2d
+ 120              	.LVL18:
+ 121 0074 0022     		movs	r2, #0
+ 122 0076 194B     		ldr	r3, .L9+12
+ 123 0078 FFF7FEFF 		bl	__aeabi_ddiv
+ 124              	.LVL19:
+ 125 007c FFF7FEFF 		bl	__aeabi_d2uiz
+ 126              	.LVL20:
+  31:main.c        ****         PWM_WriteCompare(brightness);
+ 127              		.loc 1 31 0
+ 128 0080 C0B2     		uxtb	r0, r0
+ 129 0082 FFF7FEFF 		bl	PWM_WriteCompare
+ 130              	.LVL21:
+  32:main.c        ****         
+  33:main.c        ****         if(voltage >= 2.5)
+ 131              		.loc 1 33 0
+ 132 0086 1849     		ldr	r1, .L9+24
+ 133 0088 2046     		mov	r0, r4
+ 134 008a FFF7FEFF 		bl	__aeabi_fcmpge
+ 135              	.LVL22:
+ 136 008e 50B1     		cbz	r0, .L7
+  34:main.c        ****         {
+  35:main.c        ****             LED_Write(1);
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 4
+
+
+ 137              		.loc 1 35 0
+ 138 0090 0120     		movs	r0, #1
+ 139 0092 FFF7FEFF 		bl	LED_Write
+ 140              	.LVL23:
+  36:main.c        ****             LCD_Position(1, 0);
+ 141              		.loc 1 36 0
+ 142 0096 0021     		movs	r1, #0
+ 143 0098 0120     		movs	r0, #1
+ 144 009a FFF7FEFF 		bl	LCD_Position
+ 145              	.LVL24:
+  37:main.c        ****             LCD_PrintString("LED ON");
+ 146              		.loc 1 37 0
+ 147 009e 1348     		ldr	r0, .L9+28
+ 148 00a0 FFF7FEFF 		bl	LCD_PrintString
+ 149              	.LVL25:
+ 150 00a4 09E0     		b	.L4
+ 151              	.L7:
+  38:main.c        ****         }
+  39:main.c        ****         else
+  40:main.c        ****         {
+  41:main.c        ****             LED_Write(0);
+ 152              		.loc 1 41 0
+ 153 00a6 0020     		movs	r0, #0
+ 154 00a8 FFF7FEFF 		bl	LED_Write
+ 155              	.LVL26:
+  42:main.c        ****             LCD_Position(1, 0);
+ 156              		.loc 1 42 0
+ 157 00ac 0021     		movs	r1, #0
+ 158 00ae 0120     		movs	r0, #1
+ 159 00b0 FFF7FEFF 		bl	LCD_Position
+ 160              	.LVL27:
+  43:main.c        ****             LCD_PrintString("LED OFF");
+ 161              		.loc 1 43 0
+ 162 00b4 0E48     		ldr	r0, .L9+32
+ 163 00b6 FFF7FEFF 		bl	LCD_PrintString
+ 164              	.LVL28:
+ 165              	.L4:
+  44:main.c        ****         }
+  45:main.c        ****         
+  46:main.c        ****         CyDelay(500);
+ 166              		.loc 1 46 0
+ 167 00ba 4FF4FA70 		mov	r0, #500
+ 168 00be FFF7FEFF 		bl	CyDelay
+ 169              	.LVL29:
+  47:main.c        ****         LCD_ClearDisplay();
+ 170              		.loc 1 47 0
+ 171 00c2 0120     		movs	r0, #1
+ 172 00c4 FFF7FEFF 		bl	LCD_WriteControl
+ 173              	.LVL30:
+  48:main.c        ****     }
+ 174              		.loc 1 48 0
+ 175 00c8 AAE7     		b	.L5
+ 176              	.L10:
+ 177 00ca 00BFAFF3 		.align	3
+ 177      0080
+ 178              	.L9:
+ 179 00d0 00000000 		.word	0
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 5
+
+
+ 180 00d4 00E06F40 		.word	1081073664
+ 181 00d8 00000000 		.word	.LC0
+ 182 00dc 00001440 		.word	1075052544
+ 183 00e0 0C000000 		.word	.LC1
+ 184 00e4 00007F43 		.word	1132396544
+ 185 00e8 00002040 		.word	1075838976
+ 186 00ec 1C000000 		.word	.LC2
+ 187 00f0 24000000 		.word	.LC3
+ 188              		.cfi_endproc
+ 189              	.LFE64:
+ 190              		.size	main, .-main
+ 191              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 192              		.align	2
+ 193              	.LC0:
+ 194 0000 504F5420 		.ascii	"POT VOLTAGE\000"
+ 194      564F4C54 
+ 194      41474500 
+ 195              	.LC1:
+ 196 000c 566F6C74 		.ascii	"Voltage: %.2f V\000"
+ 196      6167653A 
+ 196      20252E32 
+ 196      66205600 
+ 197              	.LC2:
+ 198 001c 4C454420 		.ascii	"LED ON\000"
+ 198      4F4E00
+ 199 0023 00       		.space	1
+ 200              	.LC3:
+ 201 0024 4C454420 		.ascii	"LED OFF\000"
+ 201      4F464600 
+ 202              		.text
+ 203              	.Letext0:
+ 204              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 205              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 206              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 207              		.file 5 "Generated_Source\\PSoC5/LCD.h"
+ 208              		.file 6 "Generated_Source\\PSoC5/ADC_SAR.h"
+ 209              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 210              		.file 8 "Generated_Source\\PSoC5/PWM.h"
+ 211              		.file 9 "Generated_Source\\PSoC5/LED.h"
+ 212              		.file 10 "Generated_Source\\PSoC5/CyLib.h"
+ 213              		.file 11 "Generated_Source\\PSoC5/core_cm3.h"
+ 214              		.section	.debug_info,"",%progbits
+ 215              	.Ldebug_info0:
+ 216 0000 13030000 		.4byte	0x313
+ 217 0004 0400     		.2byte	0x4
+ 218 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 219 000a 04       		.byte	0x4
+ 220 000b 01       		.uleb128 0x1
+ 221 000c 58000000 		.4byte	.LASF34
+ 222 0010 0C       		.byte	0xc
+ 223 0011 27020000 		.4byte	.LASF35
+ 224 0015 AC010000 		.4byte	.LASF36
+ 225 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 226 001d 00000000 		.4byte	0
+ 227 0021 00000000 		.4byte	.Ldebug_line0
+ 228 0025 02       		.uleb128 0x2
+ 229 0026 01       		.byte	0x1
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 6
+
+
+ 230 0027 06       		.byte	0x6
+ 231 0028 68020000 		.4byte	.LASF0
+ 232 002c 02       		.uleb128 0x2
+ 233 002d 01       		.byte	0x1
+ 234 002e 08       		.byte	0x8
+ 235 002f 4A000000 		.4byte	.LASF1
+ 236 0033 02       		.uleb128 0x2
+ 237 0034 02       		.byte	0x2
+ 238 0035 05       		.byte	0x5
+ 239 0036 4E010000 		.4byte	.LASF2
+ 240 003a 02       		.uleb128 0x2
+ 241 003b 02       		.byte	0x2
+ 242 003c 07       		.byte	0x7
+ 243 003d 1F000000 		.4byte	.LASF3
+ 244 0041 03       		.uleb128 0x3
+ 245 0042 15000000 		.4byte	.LASF9
+ 246 0046 02       		.byte	0x2
+ 247 0047 3F       		.byte	0x3f
+ 248 0048 4C000000 		.4byte	0x4c
+ 249 004c 02       		.uleb128 0x2
+ 250 004d 04       		.byte	0x4
+ 251 004e 05       		.byte	0x5
+ 252 004f 53020000 		.4byte	.LASF4
+ 253 0053 02       		.uleb128 0x2
+ 254 0054 04       		.byte	0x4
+ 255 0055 07       		.byte	0x7
+ 256 0056 EC000000 		.4byte	.LASF5
+ 257 005a 02       		.uleb128 0x2
+ 258 005b 08       		.byte	0x8
+ 259 005c 05       		.byte	0x5
+ 260 005d 19020000 		.4byte	.LASF6
+ 261 0061 02       		.uleb128 0x2
+ 262 0062 08       		.byte	0x8
+ 263 0063 07       		.byte	0x7
+ 264 0064 7A010000 		.4byte	.LASF7
+ 265 0068 04       		.uleb128 0x4
+ 266 0069 04       		.byte	0x4
+ 267 006a 05       		.byte	0x5
+ 268 006b 696E7400 		.ascii	"int\000"
+ 269 006f 02       		.uleb128 0x2
+ 270 0070 04       		.byte	0x4
+ 271 0071 07       		.byte	0x7
+ 272 0072 6D010000 		.4byte	.LASF8
+ 273 0076 03       		.uleb128 0x3
+ 274 0077 32000000 		.4byte	.LASF10
+ 275 007b 03       		.byte	0x3
+ 276 007c 2C       		.byte	0x2c
+ 277 007d 41000000 		.4byte	0x41
+ 278 0081 05       		.uleb128 0x5
+ 279 0082 4D020000 		.4byte	.LASF11
+ 280 0086 04       		.byte	0x4
+ 281 0087 E801     		.2byte	0x1e8
+ 282 0089 2C000000 		.4byte	0x2c
+ 283 008d 05       		.uleb128 0x5
+ 284 008e E6000000 		.4byte	.LASF12
+ 285 0092 04       		.byte	0x4
+ 286 0093 EC01     		.2byte	0x1ec
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 7
+
+
+ 287 0095 33000000 		.4byte	0x33
+ 288 0099 02       		.uleb128 0x2
+ 289 009a 04       		.byte	0x4
+ 290 009b 04       		.byte	0x4
+ 291 009c 3A000000 		.4byte	.LASF13
+ 292 00a0 02       		.uleb128 0x2
+ 293 00a1 08       		.byte	0x8
+ 294 00a2 04       		.byte	0x4
+ 295 00a3 36010000 		.4byte	.LASF14
+ 296 00a7 02       		.uleb128 0x2
+ 297 00a8 01       		.byte	0x1
+ 298 00a9 08       		.byte	0x8
+ 299 00aa 2E020000 		.4byte	.LASF15
+ 300 00ae 02       		.uleb128 0x2
+ 301 00af 08       		.byte	0x8
+ 302 00b0 04       		.byte	0x4
+ 303 00b1 5C020000 		.4byte	.LASF16
+ 304 00b5 02       		.uleb128 0x2
+ 305 00b6 04       		.byte	0x4
+ 306 00b7 07       		.byte	0x7
+ 307 00b8 F8010000 		.4byte	.LASF17
+ 308 00bc 06       		.uleb128 0x6
+ 309 00bd 68010000 		.4byte	.LASF37
+ 310 00c1 01       		.byte	0x1
+ 311 00c2 06       		.byte	0x6
+ 312 00c3 68000000 		.4byte	0x68
+ 313 00c7 00000000 		.4byte	.LFB64
+ 314 00cb F4000000 		.4byte	.LFE64-.LFB64
+ 315 00cf 01       		.uleb128 0x1
+ 316 00d0 9C       		.byte	0x9c
+ 317 00d1 71020000 		.4byte	0x271
+ 318 00d5 07       		.uleb128 0x7
+ 319 00d6 44020000 		.4byte	.LASF18
+ 320 00da 01       		.byte	0x1
+ 321 00db 0A       		.byte	0xa
+ 322 00dc 8D000000 		.4byte	0x8d
+ 323 00e0 00000000 		.4byte	.LLST0
+ 324 00e4 07       		.uleb128 0x7
+ 325 00e5 21010000 		.4byte	.LASF19
+ 326 00e9 01       		.byte	0x1
+ 327 00ea 0B       		.byte	0xb
+ 328 00eb 99000000 		.4byte	0x99
+ 329 00ef 13000000 		.4byte	.LLST1
+ 330 00f3 08       		.uleb128 0x8
+ 331 00f4 13010000 		.4byte	.LASF20
+ 332 00f8 01       		.byte	0x1
+ 333 00f9 0C       		.byte	0xc
+ 334 00fa 71020000 		.4byte	0x271
+ 335 00fe 02       		.uleb128 0x2
+ 336 00ff 91       		.byte	0x91
+ 337 0100 68       		.sleb128 -24
+ 338 0101 07       		.uleb128 0x7
+ 339 0102 00000000 		.4byte	.LASF21
+ 340 0106 01       		.byte	0x1
+ 341 0107 12       		.byte	0x12
+ 342 0108 81000000 		.4byte	0x81
+ 343 010c 31000000 		.4byte	.LLST2
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 8
+
+
+ 344 0110 09       		.uleb128 0x9
+ 345 0111 0A000000 		.4byte	.LVL0
+ 346 0115 92020000 		.4byte	0x292
+ 347 0119 0A       		.uleb128 0xa
+ 348 011a 12000000 		.4byte	.LVL1
+ 349 011e 9D020000 		.4byte	0x29d
+ 350 0122 31010000 		.4byte	0x131
+ 351 0126 0B       		.uleb128 0xb
+ 352 0127 01       		.uleb128 0x1
+ 353 0128 50       		.byte	0x50
+ 354 0129 01       		.uleb128 0x1
+ 355 012a 30       		.byte	0x30
+ 356 012b 0B       		.uleb128 0xb
+ 357 012c 01       		.uleb128 0x1
+ 358 012d 51       		.byte	0x51
+ 359 012e 01       		.uleb128 0x1
+ 360 012f 30       		.byte	0x30
+ 361 0130 00       		.byte	0
+ 362 0131 0A       		.uleb128 0xa
+ 363 0132 18000000 		.4byte	.LVL2
+ 364 0136 A8020000 		.4byte	0x2a8
+ 365 013a 48010000 		.4byte	0x148
+ 366 013e 0B       		.uleb128 0xb
+ 367 013f 01       		.uleb128 0x1
+ 368 0140 50       		.byte	0x50
+ 369 0141 05       		.uleb128 0x5
+ 370 0142 03       		.byte	0x3
+ 371 0143 00000000 		.4byte	.LC0
+ 372 0147 00       		.byte	0
+ 373 0148 09       		.uleb128 0x9
+ 374 0149 1C000000 		.4byte	.LVL3
+ 375 014d B3020000 		.4byte	0x2b3
+ 376 0151 09       		.uleb128 0x9
+ 377 0152 20000000 		.4byte	.LVL4
+ 378 0156 BE020000 		.4byte	0x2be
+ 379 015a 0A       		.uleb128 0xa
+ 380 015b 26000000 		.4byte	.LVL5
+ 381 015f C9020000 		.4byte	0x2c9
+ 382 0163 6D010000 		.4byte	0x16d
+ 383 0167 0B       		.uleb128 0xb
+ 384 0168 01       		.uleb128 0x1
+ 385 0169 50       		.byte	0x50
+ 386 016a 01       		.uleb128 0x1
+ 387 016b 30       		.byte	0x30
+ 388 016c 00       		.byte	0
+ 389 016d 09       		.uleb128 0x9
+ 390 016e 2A000000 		.4byte	.LVL6
+ 391 0172 D4020000 		.4byte	0x2d4
+ 392 0176 0A       		.uleb128 0xa
+ 393 0177 5A000000 		.4byte	.LVL14
+ 394 017b DF020000 		.4byte	0x2df
+ 395 017f 93010000 		.4byte	0x193
+ 396 0183 0B       		.uleb128 0xb
+ 397 0184 01       		.uleb128 0x1
+ 398 0185 50       		.byte	0x50
+ 399 0186 02       		.uleb128 0x2
+ 400 0187 7D       		.byte	0x7d
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 9
+
+
+ 401 0188 00       		.sleb128 0
+ 402 0189 0B       		.uleb128 0xb
+ 403 018a 01       		.uleb128 0x1
+ 404 018b 51       		.byte	0x51
+ 405 018c 05       		.uleb128 0x5
+ 406 018d 03       		.byte	0x3
+ 407 018e 0C000000 		.4byte	.LC1
+ 408 0192 00       		.byte	0
+ 409 0193 0A       		.uleb128 0xa
+ 410 0194 62000000 		.4byte	.LVL15
+ 411 0198 9D020000 		.4byte	0x29d
+ 412 019c AB010000 		.4byte	0x1ab
+ 413 01a0 0B       		.uleb128 0xb
+ 414 01a1 01       		.uleb128 0x1
+ 415 01a2 50       		.byte	0x50
+ 416 01a3 01       		.uleb128 0x1
+ 417 01a4 31       		.byte	0x31
+ 418 01a5 0B       		.uleb128 0xb
+ 419 01a6 01       		.uleb128 0x1
+ 420 01a7 51       		.byte	0x51
+ 421 01a8 01       		.uleb128 0x1
+ 422 01a9 30       		.byte	0x30
+ 423 01aa 00       		.byte	0
+ 424 01ab 0A       		.uleb128 0xa
+ 425 01ac 68000000 		.4byte	.LVL16
+ 426 01b0 A8020000 		.4byte	0x2a8
+ 427 01b4 BF010000 		.4byte	0x1bf
+ 428 01b8 0B       		.uleb128 0xb
+ 429 01b9 01       		.uleb128 0x1
+ 430 01ba 50       		.byte	0x50
+ 431 01bb 02       		.uleb128 0x2
+ 432 01bc 7D       		.byte	0x7d
+ 433 01bd 00       		.sleb128 0
+ 434 01be 00       		.byte	0
+ 435 01bf 09       		.uleb128 0x9
+ 436 01c0 86000000 		.4byte	.LVL21
+ 437 01c4 EA020000 		.4byte	0x2ea
+ 438 01c8 0A       		.uleb128 0xa
+ 439 01c9 96000000 		.4byte	.LVL23
+ 440 01cd F5020000 		.4byte	0x2f5
+ 441 01d1 DB010000 		.4byte	0x1db
+ 442 01d5 0B       		.uleb128 0xb
+ 443 01d6 01       		.uleb128 0x1
+ 444 01d7 50       		.byte	0x50
+ 445 01d8 01       		.uleb128 0x1
+ 446 01d9 31       		.byte	0x31
+ 447 01da 00       		.byte	0
+ 448 01db 0A       		.uleb128 0xa
+ 449 01dc 9E000000 		.4byte	.LVL24
+ 450 01e0 9D020000 		.4byte	0x29d
+ 451 01e4 F3010000 		.4byte	0x1f3
+ 452 01e8 0B       		.uleb128 0xb
+ 453 01e9 01       		.uleb128 0x1
+ 454 01ea 50       		.byte	0x50
+ 455 01eb 01       		.uleb128 0x1
+ 456 01ec 31       		.byte	0x31
+ 457 01ed 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 10
+
+
+ 458 01ee 01       		.uleb128 0x1
+ 459 01ef 51       		.byte	0x51
+ 460 01f0 01       		.uleb128 0x1
+ 461 01f1 30       		.byte	0x30
+ 462 01f2 00       		.byte	0
+ 463 01f3 0A       		.uleb128 0xa
+ 464 01f4 A4000000 		.4byte	.LVL25
+ 465 01f8 A8020000 		.4byte	0x2a8
+ 466 01fc 0A020000 		.4byte	0x20a
+ 467 0200 0B       		.uleb128 0xb
+ 468 0201 01       		.uleb128 0x1
+ 469 0202 50       		.byte	0x50
+ 470 0203 05       		.uleb128 0x5
+ 471 0204 03       		.byte	0x3
+ 472 0205 1C000000 		.4byte	.LC2
+ 473 0209 00       		.byte	0
+ 474 020a 0A       		.uleb128 0xa
+ 475 020b AC000000 		.4byte	.LVL26
+ 476 020f F5020000 		.4byte	0x2f5
+ 477 0213 1D020000 		.4byte	0x21d
+ 478 0217 0B       		.uleb128 0xb
+ 479 0218 01       		.uleb128 0x1
+ 480 0219 50       		.byte	0x50
+ 481 021a 01       		.uleb128 0x1
+ 482 021b 30       		.byte	0x30
+ 483 021c 00       		.byte	0
+ 484 021d 0A       		.uleb128 0xa
+ 485 021e B4000000 		.4byte	.LVL27
+ 486 0222 9D020000 		.4byte	0x29d
+ 487 0226 35020000 		.4byte	0x235
+ 488 022a 0B       		.uleb128 0xb
+ 489 022b 01       		.uleb128 0x1
+ 490 022c 50       		.byte	0x50
+ 491 022d 01       		.uleb128 0x1
+ 492 022e 31       		.byte	0x31
+ 493 022f 0B       		.uleb128 0xb
+ 494 0230 01       		.uleb128 0x1
+ 495 0231 51       		.byte	0x51
+ 496 0232 01       		.uleb128 0x1
+ 497 0233 30       		.byte	0x30
+ 498 0234 00       		.byte	0
+ 499 0235 0A       		.uleb128 0xa
+ 500 0236 BA000000 		.4byte	.LVL28
+ 501 023a A8020000 		.4byte	0x2a8
+ 502 023e 4C020000 		.4byte	0x24c
+ 503 0242 0B       		.uleb128 0xb
+ 504 0243 01       		.uleb128 0x1
+ 505 0244 50       		.byte	0x50
+ 506 0245 05       		.uleb128 0x5
+ 507 0246 03       		.byte	0x3
+ 508 0247 24000000 		.4byte	.LC3
+ 509 024b 00       		.byte	0
+ 510 024c 0A       		.uleb128 0xa
+ 511 024d C2000000 		.4byte	.LVL29
+ 512 0251 00030000 		.4byte	0x300
+ 513 0255 61020000 		.4byte	0x261
+ 514 0259 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 11
+
+
+ 515 025a 01       		.uleb128 0x1
+ 516 025b 50       		.byte	0x50
+ 517 025c 03       		.uleb128 0x3
+ 518 025d 0A       		.byte	0xa
+ 519 025e F401     		.2byte	0x1f4
+ 520 0260 00       		.byte	0
+ 521 0261 0C       		.uleb128 0xc
+ 522 0262 C8000000 		.4byte	.LVL30
+ 523 0266 0B030000 		.4byte	0x30b
+ 524 026a 0B       		.uleb128 0xb
+ 525 026b 01       		.uleb128 0x1
+ 526 026c 50       		.byte	0x50
+ 527 026d 01       		.uleb128 0x1
+ 528 026e 31       		.byte	0x31
+ 529 026f 00       		.byte	0
+ 530 0270 00       		.byte	0
+ 531 0271 0D       		.uleb128 0xd
+ 532 0272 A7000000 		.4byte	0xa7
+ 533 0276 81020000 		.4byte	0x281
+ 534 027a 0E       		.uleb128 0xe
+ 535 027b B5000000 		.4byte	0xb5
+ 536 027f 0F       		.byte	0xf
+ 537 0280 00       		.byte	0
+ 538 0281 0F       		.uleb128 0xf
+ 539 0282 29010000 		.4byte	.LASF38
+ 540 0286 0B       		.byte	0xb
+ 541 0287 1207     		.2byte	0x712
+ 542 0289 8D020000 		.4byte	0x28d
+ 543 028d 10       		.uleb128 0x10
+ 544 028e 76000000 		.4byte	0x76
+ 545 0292 11       		.uleb128 0x11
+ 546 0293 40000000 		.4byte	.LASF22
+ 547 0297 40000000 		.4byte	.LASF22
+ 548 029b 05       		.byte	0x5
+ 549 029c 38       		.byte	0x38
+ 550 029d 11       		.uleb128 0x11
+ 551 029e 91010000 		.4byte	.LASF23
+ 552 02a2 91010000 		.4byte	.LASF23
+ 553 02a6 05       		.byte	0x5
+ 554 02a7 3D       		.byte	0x3d
+ 555 02a8 11       		.uleb128 0x11
+ 556 02a9 58010000 		.4byte	.LASF24
+ 557 02ad 58010000 		.4byte	.LASF24
+ 558 02b1 05       		.byte	0x5
+ 559 02b2 3C       		.byte	0x3c
+ 560 02b3 11       		.uleb128 0x11
+ 561 02b4 9E010000 		.4byte	.LASF25
+ 562 02b8 9E010000 		.4byte	.LASF25
+ 563 02bc 06       		.byte	0x6
+ 564 02bd 34       		.byte	0x34
+ 565 02be 11       		.uleb128 0x11
+ 566 02bf FE000000 		.4byte	.LASF26
+ 567 02c3 FE000000 		.4byte	.LASF26
+ 568 02c7 06       		.byte	0x6
+ 569 02c8 D1       		.byte	0xd1
+ 570 02c9 11       		.uleb128 0x11
+ 571 02ca 01020000 		.4byte	.LASF27
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 12
+
+
+ 572 02ce 01020000 		.4byte	.LASF27
+ 573 02d2 06       		.byte	0x6
+ 574 02d3 39       		.byte	0x39
+ 575 02d4 11       		.uleb128 0x11
+ 576 02d5 74020000 		.4byte	.LASF28
+ 577 02d9 74020000 		.4byte	.LASF28
+ 578 02dd 06       		.byte	0x6
+ 579 02de 3B       		.byte	0x3b
+ 580 02df 11       		.uleb128 0x11
+ 581 02e0 88020000 		.4byte	.LASF29
+ 582 02e4 88020000 		.4byte	.LASF29
+ 583 02e8 07       		.byte	0x7
+ 584 02e9 E7       		.byte	0xe7
+ 585 02ea 11       		.uleb128 0x11
+ 586 02eb 3D010000 		.4byte	.LASF30
+ 587 02ef 3D010000 		.4byte	.LASF30
+ 588 02f3 08       		.byte	0x8
+ 589 02f4 C3       		.byte	0xc3
+ 590 02f5 11       		.uleb128 0x11
+ 591 02f6 0B000000 		.4byte	.LASF31
+ 592 02fa 0B000000 		.4byte	.LASF31
+ 593 02fe 09       		.byte	0x9
+ 594 02ff 26       		.byte	0x26
+ 595 0300 11       		.uleb128 0x11
+ 596 0301 90020000 		.4byte	.LASF32
+ 597 0305 90020000 		.4byte	.LASF32
+ 598 0309 0A       		.byte	0xa
+ 599 030a 76       		.byte	0x76
+ 600 030b 11       		.uleb128 0x11
+ 601 030c 33020000 		.4byte	.LASF33
+ 602 0310 33020000 		.4byte	.LASF33
+ 603 0314 05       		.byte	0x5
+ 604 0315 3A       		.byte	0x3a
+ 605 0316 00       		.byte	0
+ 606              		.section	.debug_abbrev,"",%progbits
+ 607              	.Ldebug_abbrev0:
+ 608 0000 01       		.uleb128 0x1
+ 609 0001 11       		.uleb128 0x11
+ 610 0002 01       		.byte	0x1
+ 611 0003 25       		.uleb128 0x25
+ 612 0004 0E       		.uleb128 0xe
+ 613 0005 13       		.uleb128 0x13
+ 614 0006 0B       		.uleb128 0xb
+ 615 0007 03       		.uleb128 0x3
+ 616 0008 0E       		.uleb128 0xe
+ 617 0009 1B       		.uleb128 0x1b
+ 618 000a 0E       		.uleb128 0xe
+ 619 000b 55       		.uleb128 0x55
+ 620 000c 17       		.uleb128 0x17
+ 621 000d 11       		.uleb128 0x11
+ 622 000e 01       		.uleb128 0x1
+ 623 000f 10       		.uleb128 0x10
+ 624 0010 17       		.uleb128 0x17
+ 625 0011 00       		.byte	0
+ 626 0012 00       		.byte	0
+ 627 0013 02       		.uleb128 0x2
+ 628 0014 24       		.uleb128 0x24
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 13
+
+
+ 629 0015 00       		.byte	0
+ 630 0016 0B       		.uleb128 0xb
+ 631 0017 0B       		.uleb128 0xb
+ 632 0018 3E       		.uleb128 0x3e
+ 633 0019 0B       		.uleb128 0xb
+ 634 001a 03       		.uleb128 0x3
+ 635 001b 0E       		.uleb128 0xe
+ 636 001c 00       		.byte	0
+ 637 001d 00       		.byte	0
+ 638 001e 03       		.uleb128 0x3
+ 639 001f 16       		.uleb128 0x16
+ 640 0020 00       		.byte	0
+ 641 0021 03       		.uleb128 0x3
+ 642 0022 0E       		.uleb128 0xe
+ 643 0023 3A       		.uleb128 0x3a
+ 644 0024 0B       		.uleb128 0xb
+ 645 0025 3B       		.uleb128 0x3b
+ 646 0026 0B       		.uleb128 0xb
+ 647 0027 49       		.uleb128 0x49
+ 648 0028 13       		.uleb128 0x13
+ 649 0029 00       		.byte	0
+ 650 002a 00       		.byte	0
+ 651 002b 04       		.uleb128 0x4
+ 652 002c 24       		.uleb128 0x24
+ 653 002d 00       		.byte	0
+ 654 002e 0B       		.uleb128 0xb
+ 655 002f 0B       		.uleb128 0xb
+ 656 0030 3E       		.uleb128 0x3e
+ 657 0031 0B       		.uleb128 0xb
+ 658 0032 03       		.uleb128 0x3
+ 659 0033 08       		.uleb128 0x8
+ 660 0034 00       		.byte	0
+ 661 0035 00       		.byte	0
+ 662 0036 05       		.uleb128 0x5
+ 663 0037 16       		.uleb128 0x16
+ 664 0038 00       		.byte	0
+ 665 0039 03       		.uleb128 0x3
+ 666 003a 0E       		.uleb128 0xe
+ 667 003b 3A       		.uleb128 0x3a
+ 668 003c 0B       		.uleb128 0xb
+ 669 003d 3B       		.uleb128 0x3b
+ 670 003e 05       		.uleb128 0x5
+ 671 003f 49       		.uleb128 0x49
+ 672 0040 13       		.uleb128 0x13
+ 673 0041 00       		.byte	0
+ 674 0042 00       		.byte	0
+ 675 0043 06       		.uleb128 0x6
+ 676 0044 2E       		.uleb128 0x2e
+ 677 0045 01       		.byte	0x1
+ 678 0046 3F       		.uleb128 0x3f
+ 679 0047 19       		.uleb128 0x19
+ 680 0048 03       		.uleb128 0x3
+ 681 0049 0E       		.uleb128 0xe
+ 682 004a 3A       		.uleb128 0x3a
+ 683 004b 0B       		.uleb128 0xb
+ 684 004c 3B       		.uleb128 0x3b
+ 685 004d 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 14
+
+
+ 686 004e 27       		.uleb128 0x27
+ 687 004f 19       		.uleb128 0x19
+ 688 0050 49       		.uleb128 0x49
+ 689 0051 13       		.uleb128 0x13
+ 690 0052 8701     		.uleb128 0x87
+ 691 0054 19       		.uleb128 0x19
+ 692 0055 11       		.uleb128 0x11
+ 693 0056 01       		.uleb128 0x1
+ 694 0057 12       		.uleb128 0x12
+ 695 0058 06       		.uleb128 0x6
+ 696 0059 40       		.uleb128 0x40
+ 697 005a 18       		.uleb128 0x18
+ 698 005b 9642     		.uleb128 0x2116
+ 699 005d 19       		.uleb128 0x19
+ 700 005e 01       		.uleb128 0x1
+ 701 005f 13       		.uleb128 0x13
+ 702 0060 00       		.byte	0
+ 703 0061 00       		.byte	0
+ 704 0062 07       		.uleb128 0x7
+ 705 0063 34       		.uleb128 0x34
+ 706 0064 00       		.byte	0
+ 707 0065 03       		.uleb128 0x3
+ 708 0066 0E       		.uleb128 0xe
+ 709 0067 3A       		.uleb128 0x3a
+ 710 0068 0B       		.uleb128 0xb
+ 711 0069 3B       		.uleb128 0x3b
+ 712 006a 0B       		.uleb128 0xb
+ 713 006b 49       		.uleb128 0x49
+ 714 006c 13       		.uleb128 0x13
+ 715 006d 02       		.uleb128 0x2
+ 716 006e 17       		.uleb128 0x17
+ 717 006f 00       		.byte	0
+ 718 0070 00       		.byte	0
+ 719 0071 08       		.uleb128 0x8
+ 720 0072 34       		.uleb128 0x34
+ 721 0073 00       		.byte	0
+ 722 0074 03       		.uleb128 0x3
+ 723 0075 0E       		.uleb128 0xe
+ 724 0076 3A       		.uleb128 0x3a
+ 725 0077 0B       		.uleb128 0xb
+ 726 0078 3B       		.uleb128 0x3b
+ 727 0079 0B       		.uleb128 0xb
+ 728 007a 49       		.uleb128 0x49
+ 729 007b 13       		.uleb128 0x13
+ 730 007c 02       		.uleb128 0x2
+ 731 007d 18       		.uleb128 0x18
+ 732 007e 00       		.byte	0
+ 733 007f 00       		.byte	0
+ 734 0080 09       		.uleb128 0x9
+ 735 0081 898201   		.uleb128 0x4109
+ 736 0084 00       		.byte	0
+ 737 0085 11       		.uleb128 0x11
+ 738 0086 01       		.uleb128 0x1
+ 739 0087 31       		.uleb128 0x31
+ 740 0088 13       		.uleb128 0x13
+ 741 0089 00       		.byte	0
+ 742 008a 00       		.byte	0
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 15
+
+
+ 743 008b 0A       		.uleb128 0xa
+ 744 008c 898201   		.uleb128 0x4109
+ 745 008f 01       		.byte	0x1
+ 746 0090 11       		.uleb128 0x11
+ 747 0091 01       		.uleb128 0x1
+ 748 0092 31       		.uleb128 0x31
+ 749 0093 13       		.uleb128 0x13
+ 750 0094 01       		.uleb128 0x1
+ 751 0095 13       		.uleb128 0x13
+ 752 0096 00       		.byte	0
+ 753 0097 00       		.byte	0
+ 754 0098 0B       		.uleb128 0xb
+ 755 0099 8A8201   		.uleb128 0x410a
+ 756 009c 00       		.byte	0
+ 757 009d 02       		.uleb128 0x2
+ 758 009e 18       		.uleb128 0x18
+ 759 009f 9142     		.uleb128 0x2111
+ 760 00a1 18       		.uleb128 0x18
+ 761 00a2 00       		.byte	0
+ 762 00a3 00       		.byte	0
+ 763 00a4 0C       		.uleb128 0xc
+ 764 00a5 898201   		.uleb128 0x4109
+ 765 00a8 01       		.byte	0x1
+ 766 00a9 11       		.uleb128 0x11
+ 767 00aa 01       		.uleb128 0x1
+ 768 00ab 31       		.uleb128 0x31
+ 769 00ac 13       		.uleb128 0x13
+ 770 00ad 00       		.byte	0
+ 771 00ae 00       		.byte	0
+ 772 00af 0D       		.uleb128 0xd
+ 773 00b0 01       		.uleb128 0x1
+ 774 00b1 01       		.byte	0x1
+ 775 00b2 49       		.uleb128 0x49
+ 776 00b3 13       		.uleb128 0x13
+ 777 00b4 01       		.uleb128 0x1
+ 778 00b5 13       		.uleb128 0x13
+ 779 00b6 00       		.byte	0
+ 780 00b7 00       		.byte	0
+ 781 00b8 0E       		.uleb128 0xe
+ 782 00b9 21       		.uleb128 0x21
+ 783 00ba 00       		.byte	0
+ 784 00bb 49       		.uleb128 0x49
+ 785 00bc 13       		.uleb128 0x13
+ 786 00bd 2F       		.uleb128 0x2f
+ 787 00be 0B       		.uleb128 0xb
+ 788 00bf 00       		.byte	0
+ 789 00c0 00       		.byte	0
+ 790 00c1 0F       		.uleb128 0xf
+ 791 00c2 34       		.uleb128 0x34
+ 792 00c3 00       		.byte	0
+ 793 00c4 03       		.uleb128 0x3
+ 794 00c5 0E       		.uleb128 0xe
+ 795 00c6 3A       		.uleb128 0x3a
+ 796 00c7 0B       		.uleb128 0xb
+ 797 00c8 3B       		.uleb128 0x3b
+ 798 00c9 05       		.uleb128 0x5
+ 799 00ca 49       		.uleb128 0x49
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 16
+
+
+ 800 00cb 13       		.uleb128 0x13
+ 801 00cc 3F       		.uleb128 0x3f
+ 802 00cd 19       		.uleb128 0x19
+ 803 00ce 3C       		.uleb128 0x3c
+ 804 00cf 19       		.uleb128 0x19
+ 805 00d0 00       		.byte	0
+ 806 00d1 00       		.byte	0
+ 807 00d2 10       		.uleb128 0x10
+ 808 00d3 35       		.uleb128 0x35
+ 809 00d4 00       		.byte	0
+ 810 00d5 49       		.uleb128 0x49
+ 811 00d6 13       		.uleb128 0x13
+ 812 00d7 00       		.byte	0
+ 813 00d8 00       		.byte	0
+ 814 00d9 11       		.uleb128 0x11
+ 815 00da 2E       		.uleb128 0x2e
+ 816 00db 00       		.byte	0
+ 817 00dc 3F       		.uleb128 0x3f
+ 818 00dd 19       		.uleb128 0x19
+ 819 00de 3C       		.uleb128 0x3c
+ 820 00df 19       		.uleb128 0x19
+ 821 00e0 6E       		.uleb128 0x6e
+ 822 00e1 0E       		.uleb128 0xe
+ 823 00e2 03       		.uleb128 0x3
+ 824 00e3 0E       		.uleb128 0xe
+ 825 00e4 3A       		.uleb128 0x3a
+ 826 00e5 0B       		.uleb128 0xb
+ 827 00e6 3B       		.uleb128 0x3b
+ 828 00e7 0B       		.uleb128 0xb
+ 829 00e8 00       		.byte	0
+ 830 00e9 00       		.byte	0
+ 831 00ea 00       		.byte	0
+ 832              		.section	.debug_loc,"",%progbits
+ 833              	.Ldebug_loc0:
+ 834              	.LLST0:
+ 835 0000 2A000000 		.4byte	.LVL6
+ 836 0004 2D000000 		.4byte	.LVL7-1
+ 837 0008 0100     		.2byte	0x1
+ 838 000a 50       		.byte	0x50
+ 839 000b 00000000 		.4byte	0
+ 840 000f 00000000 		.4byte	0
+ 841              	.LLST1:
+ 842 0013 4A000000 		.4byte	.LVL12
+ 843 0017 4D000000 		.4byte	.LVL13-1
+ 844 001b 0100     		.2byte	0x1
+ 845 001d 50       		.byte	0x50
+ 846 001e 4D000000 		.4byte	.LVL13-1
+ 847 0022 F4000000 		.4byte	.LFE64
+ 848 0026 0100     		.2byte	0x1
+ 849 0028 54       		.byte	0x54
+ 850 0029 00000000 		.4byte	0
+ 851 002d 00000000 		.4byte	0
+ 852              	.LLST2:
+ 853 0031 80000000 		.4byte	.LVL20
+ 854 0035 85000000 		.4byte	.LVL21-1
+ 855 0039 0100     		.2byte	0x1
+ 856 003b 50       		.byte	0x50
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 17
+
+
+ 857 003c 00000000 		.4byte	0
+ 858 0040 00000000 		.4byte	0
+ 859              		.section	.debug_aranges,"",%progbits
+ 860 0000 1C000000 		.4byte	0x1c
+ 861 0004 0200     		.2byte	0x2
+ 862 0006 00000000 		.4byte	.Ldebug_info0
+ 863 000a 04       		.byte	0x4
+ 864 000b 00       		.byte	0
+ 865 000c 0000     		.2byte	0
+ 866 000e 0000     		.2byte	0
+ 867 0010 00000000 		.4byte	.LFB64
+ 868 0014 F4000000 		.4byte	.LFE64-.LFB64
+ 869 0018 00000000 		.4byte	0
+ 870 001c 00000000 		.4byte	0
+ 871              		.section	.debug_ranges,"",%progbits
+ 872              	.Ldebug_ranges0:
+ 873 0000 00000000 		.4byte	.LFB64
+ 874 0004 F4000000 		.4byte	.LFE64
+ 875 0008 00000000 		.4byte	0
+ 876 000c 00000000 		.4byte	0
+ 877              		.section	.debug_line,"",%progbits
+ 878              	.Ldebug_line0:
+ 879 0000 1D020000 		.section	.debug_str,"MS",%progbits,1
+ 879      0200F201 
+ 879      00000201 
+ 879      FB0E0D00 
+ 879      01010101 
+ 880              	.LASF21:
+ 881 0000 62726967 		.ascii	"brightness\000"
+ 881      68746E65 
+ 881      737300
+ 882              	.LASF31:
+ 883 000b 4C45445F 		.ascii	"LED_Write\000"
+ 883      57726974 
+ 883      6500
+ 884              	.LASF9:
+ 885 0015 5F5F696E 		.ascii	"__int32_t\000"
+ 885      7433325F 
+ 885      7400
+ 886              	.LASF3:
+ 887 001f 73686F72 		.ascii	"short unsigned int\000"
+ 887      7420756E 
+ 887      7369676E 
+ 887      65642069 
+ 887      6E7400
+ 888              	.LASF10:
+ 889 0032 696E7433 		.ascii	"int32_t\000"
+ 889      325F7400 
+ 890              	.LASF13:
+ 891 003a 666C6F61 		.ascii	"float\000"
+ 891      7400
+ 892              	.LASF22:
+ 893 0040 4C43445F 		.ascii	"LCD_Start\000"
+ 893      53746172 
+ 893      7400
+ 894              	.LASF1:
+ 895 004a 756E7369 		.ascii	"unsigned char\000"
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 18
+
+
+ 895      676E6564 
+ 895      20636861 
+ 895      7200
+ 896              	.LASF34:
+ 897 0058 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 897      43313120 
+ 897      352E342E 
+ 897      31203230 
+ 897      31363036 
+ 898 008b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 898      20726576 
+ 898      6973696F 
+ 898      6E203233 
+ 898      37373135 
+ 899 00be 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 899      66756E63 
+ 899      74696F6E 
+ 899      2D736563 
+ 899      74696F6E 
+ 900              	.LASF12:
+ 901 00e6 696E7431 		.ascii	"int16\000"
+ 901      3600
+ 902              	.LASF5:
+ 903 00ec 6C6F6E67 		.ascii	"long unsigned int\000"
+ 903      20756E73 
+ 903      69676E65 
+ 903      6420696E 
+ 903      7400
+ 904              	.LASF26:
+ 905 00fe 4144435F 		.ascii	"ADC_SAR_StartConvert\000"
+ 905      5341525F 
+ 905      53746172 
+ 905      74436F6E 
+ 905      76657274 
+ 906              	.LASF20:
+ 907 0113 766F6C74 		.ascii	"voltageString\000"
+ 907      61676553 
+ 907      7472696E 
+ 907      6700
+ 908              	.LASF19:
+ 909 0121 766F6C74 		.ascii	"voltage\000"
+ 909      61676500 
+ 910              	.LASF38:
+ 911 0129 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 911      52784275 
+ 911      66666572 
+ 911      00
+ 912              	.LASF14:
+ 913 0136 646F7562 		.ascii	"double\000"
+ 913      6C6500
+ 914              	.LASF30:
+ 915 013d 50574D5F 		.ascii	"PWM_WriteCompare\000"
+ 915      57726974 
+ 915      65436F6D 
+ 915      70617265 
+ 915      00
+ 916              	.LASF2:
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 19
+
+
+ 917 014e 73686F72 		.ascii	"short int\000"
+ 917      7420696E 
+ 917      7400
+ 918              	.LASF24:
+ 919 0158 4C43445F 		.ascii	"LCD_PrintString\000"
+ 919      5072696E 
+ 919      74537472 
+ 919      696E6700 
+ 920              	.LASF37:
+ 921 0168 6D61696E 		.ascii	"main\000"
+ 921      00
+ 922              	.LASF8:
+ 923 016d 756E7369 		.ascii	"unsigned int\000"
+ 923      676E6564 
+ 923      20696E74 
+ 923      00
+ 924              	.LASF7:
+ 925 017a 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 925      206C6F6E 
+ 925      6720756E 
+ 925      7369676E 
+ 925      65642069 
+ 926              	.LASF23:
+ 927 0191 4C43445F 		.ascii	"LCD_Position\000"
+ 927      506F7369 
+ 927      74696F6E 
+ 927      00
+ 928              	.LASF25:
+ 929 019e 4144435F 		.ascii	"ADC_SAR_Start\000"
+ 929      5341525F 
+ 929      53746172 
+ 929      7400
+ 930              	.LASF36:
+ 931 01ac 433A5C55 		.ascii	"C:\\Users\\Acer\\3D Objects\\Class Notes\\PSoC\\Wor"
+ 931      73657273 
+ 931      5C416365 
+ 931      725C3344 
+ 931      204F626A 
+ 932 01d9 6B737061 		.ascii	"kspace_1\\display_voltage.cydsn\000"
+ 932      63655F31 
+ 932      5C646973 
+ 932      706C6179 
+ 932      5F766F6C 
+ 933              	.LASF17:
+ 934 01f8 73697A65 		.ascii	"sizetype\000"
+ 934      74797065 
+ 934      00
+ 935              	.LASF27:
+ 936 0201 4144435F 		.ascii	"ADC_SAR_IsEndConversion\000"
+ 936      5341525F 
+ 936      4973456E 
+ 936      64436F6E 
+ 936      76657273 
+ 937              	.LASF6:
+ 938 0219 6C6F6E67 		.ascii	"long long int\000"
+ 938      206C6F6E 
+ 938      6720696E 
+ARM GAS  C:\Users\Acer\AppData\Local\Temp\ccRXFcJp.s 			page 20
+
+
+ 938      7400
+ 939              	.LASF35:
+ 940 0227 6D61696E 		.ascii	"main.c\000"
+ 940      2E6300
+ 941              	.LASF15:
+ 942 022e 63686172 		.ascii	"char\000"
+ 942      00
+ 943              	.LASF33:
+ 944 0233 4C43445F 		.ascii	"LCD_WriteControl\000"
+ 944      57726974 
+ 944      65436F6E 
+ 944      74726F6C 
+ 944      00
+ 945              	.LASF18:
+ 946 0244 706F745F 		.ascii	"pot_data\000"
+ 946      64617461 
+ 946      00
+ 947              	.LASF11:
+ 948 024d 75696E74 		.ascii	"uint8\000"
+ 948      3800
+ 949              	.LASF4:
+ 950 0253 6C6F6E67 		.ascii	"long int\000"
+ 950      20696E74 
+ 950      00
+ 951              	.LASF16:
+ 952 025c 6C6F6E67 		.ascii	"long double\000"
+ 952      20646F75 
+ 952      626C6500 
+ 953              	.LASF0:
+ 954 0268 7369676E 		.ascii	"signed char\000"
+ 954      65642063 
+ 954      68617200 
+ 955              	.LASF28:
+ 956 0274 4144435F 		.ascii	"ADC_SAR_GetResult16\000"
+ 956      5341525F 
+ 956      47657452 
+ 956      6573756C 
+ 956      74313600 
+ 957              	.LASF29:
+ 958 0288 73707269 		.ascii	"sprintf\000"
+ 958      6E746600 
+ 959              	.LASF32:
+ 960 0290 43794465 		.ascii	"CyDelay\000"
+ 960      6C617900 
+ 961              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

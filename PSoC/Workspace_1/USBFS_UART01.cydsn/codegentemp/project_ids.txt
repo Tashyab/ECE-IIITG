@@ -1,0 +1,8 @@
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\project1.cydsn\project1.cyprj|8fd9a24a-1f4d-46b9-a932-b0e178d29c4c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|9ace2067-3a65-4a94-a737-23c4c2fb3f10
+C:\Users\Acer\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|7575ad47-c03e-4a39-9f2e-11eccb0bf049
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|6b091541-3a7e-4b91-a431-6a1d84597f6d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|8d4bd40f-84fb-4f2b-ad06-d9d755deba30
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|2254a498-71e4-41b1-b67a-8a24e3c666ad
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|708ae047-02a3-42d2-8c17-86cbcff7d8e2
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\USBFS_UART01.cydsn\USBFS_UART01.cyprj|3b66287f-5743-4b37-80db-02680ea63bb7

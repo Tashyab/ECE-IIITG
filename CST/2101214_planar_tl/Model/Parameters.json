@@ -1,0 +1,25 @@
+{
+    "parameters": [
+        {
+            "expr": "20",
+            "name": "gpx",
+            "value": "20"
+        },
+        {
+            "expr": "20",
+            "name": "gpy",
+            "value": "20"
+        },
+        {
+            "expr": "0.03",
+            "name": "gh",
+            "value": "0.03"
+        },
+        {
+            "expr": "1.6",
+            "name": "sh",
+            "value": "1.6"
+        }
+    ],
+    "version": 1
+}

@@ -1,0 +1,7 @@
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\project1.cydsn\project1.cyprj|341e9983-6780-48d9-839a-4c9a5b769954
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d8ca5d04-7c7c-4038-a00e-be90fbfd8a98
+C:\Users\Acer\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|6abbcd2d-b835-41ea-b08c-85eae55d9bcb
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|630b2278-d527-48d8-8641-4f4e6575dd42
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|43db0ce6-3c26-4a04-a26f-615e69e84587
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|b50ba2f4-d163-40df-8c59-2ee193f82577
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\display_voltage.cydsn\display_voltage.cyprj|b5cf3bf2-708c-4f19-94cd-4ea620020167

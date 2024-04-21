@@ -1,0 +1,56 @@
+C51 COMPILER V9.60.7.0   SRUSHTIKABDAY                                                     02/12/2024 16:57:49 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SRUSHTIKABDAY
+OBJECT MODULE PLACED IN .\Objects\srushtikabday.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE srushtikabday.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\List
+                    -ings\srushtikabday.lst) TABS(2) OBJECT(.\Objects\srushtikabday.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          #define BAUDRATE 4800
+   4          
+   5          
+   6          void UART_Init() {
+   7   1          TMOD = 0x20;    
+   8   1          TH1 = 0xFA;
+   9   1          TR1 = 1;        
+  10   1          SCON = 0x50;    
+  11   1      }
+  12          
+  13          void UART_SendChar(char c) {
+  14   1          SBUF = c;
+  15   1          while (!TI);    
+  16   1          TI = 0;         
+  17   1      }
+  18          
+  19          char UART_ReceiveChar() {
+  20   1          while (!RI);    
+  21   1          RI = 0;         
+  22   1          return SBUF;
+  23   1      }
+  24          
+  25          void main() {
+  26   1          UART_Init();   
+  27   1          while (1) {
+  28   2              char receivedChar;       
+  29   2              receivedChar = UART_ReceiveChar();
+  30   2              UART_SendChar(receivedChar);
+  31   2          }
+  32   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     41    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

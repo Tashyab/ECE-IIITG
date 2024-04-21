@@ -1,0 +1,27 @@
+clc
+clear
+
+L=100;
+N=8;
+n=0:N-1; 
+
+xp = n==0; % To plot impulse
+subplot(2, 2, 1)
+plot(xp);
+la
+
+z = transpose(xp);
+F=zeros(N);
+for a=1:N
+    for b= 1:N
+    F(a,b)=exp(-1j*(a-1).*(b-1).*2.*pi/N);
+    end
+end
+
+y=F*z;
+subplot(2, 2, 2);
+stem(n,abs(y));
+
+subplot(2, 3, 3);
+r=fft(xp);
+stem(abs(r));

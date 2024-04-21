@@ -1,0 +1,137 @@
+C51 COMPILER V9.60.7.0   USERMENU                                                          02/26/2024 16:23:07 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE USERMENU
+OBJECT MODULE PLACED IN .\Objects\usermenu.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE usermenu.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -usermenu.lst) TABS(2) OBJECT(.\Objects\usermenu.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          //#define BAUDRATE 4800
+   4          #define lcd_data P1
+   5          
+   6          int i;
+   7          sbit rs=P0^0;
+   8          sbit en=P0^2;
+   9          int count = 0;
+  10          sfr a_pin = 0x90;  //datas pin
+  11          
+  12          
+  13          //ms delay function
+  14          void msdelay(int ms)
+  15          {
+  16   1        
+  17   1        for(i=0;i<ms;i++)
+  18   1        {
+  19   2          TMOD = 0x01;
+  20   2          TH0 = 0xFC;
+  21   2          TL0 = 0x18;
+  22   2          TR0 = 1;
+  23   2        
+  24   2          while(TF0 != 1);
+  25   2          TR0 = 0;
+  26   2          TF0 = 0;
+  27   2        }
+  28   1      }
+  29          void LCD_cmd(unsigned char a)
+  30          {
+  31   1        lcd_data = a;
+  32   1        rs = 0;
+  33   1        en = 1;
+  34   1        msdelay(1);
+  35   1        en = 0;
+  36   1        msdelay(5);
+  37   1      }
+  38          
+  39          void LCD_char(char a)
+  40          {
+  41   1          a_pin = a;      // Send datas to datas pins
+  42   1          rs = 1;        // RS = 1 for datas mode
+  43   1          en = 1;        // Enable pulse
+  44   1          msdelay(2);    // Delay for stable operation
+  45   1          en= 0;         // Disable pulse
+  46   1        msdelay(5);
+  47   1      }
+  48          
+  49          void LCD_string(char *s)
+  50          {
+  51   1        while(s)/* send string to LCD function*/
+  52   1        {
+  53   2          LCD_char(s++);/*call LCD datas write*/
+*** WARNING C214 IN LINE 53 OF usermenu.c: 'Argument': conversion: pointer to non-pointer
+C51 COMPILER V9.60.7.0   USERMENU                                                          02/26/2024 16:23:07 PAGE 2   
+
+  54   2          count++;
+  55   2        }
+  56   1      }
+  57          
+  58          void LCD_init(void)
+  59          {
+  60   1        msdelay(20);
+  61   1        LCD_cmd(0x38);/Initialization of 16x2 LCD in 8bit mode8/
+*** ERROR C141 IN LINE 61 OF usermenu.c: syntax error near '/', expected '__asm'
+*** ERROR C202 IN LINE 61 OF usermenu.c: 'Initialization': undefined identifier
+*** ERROR C141 IN LINE 61 OF usermenu.c: syntax error near 'x2', expected ';'
+*** ERROR C141 IN LINE 61 OF usermenu.c: syntax error near 'bit', expected ';'
+  62   1        LCD_cmd(0x0C);/Display ON Cursor OFF/
+*** ERROR C141 IN LINE 62 OF usermenu.c: syntax error near '/', expected '__asm'
+*** ERROR C202 IN LINE 62 OF usermenu.c: 'Display': undefined identifier
+  63   1        LCD_cmd(0x06);/Auto Increment Cursor/
+*** ERROR C141 IN LINE 63 OF usermenu.c: syntax error near '/', expected '__asm'
+*** ERROR C202 IN LINE 63 OF usermenu.c: 'Auto': undefined identifier
+  64   1        LCD_cmd(0x01);/Clear display/
+*** ERROR C141 IN LINE 64 OF usermenu.c: syntax error near '/', expected '__asm'
+*** ERROR C202 IN LINE 64 OF usermenu.c: 'Clear': undefined identifier
+  65   1        LCD_cmd(0x02);
+  66   1        LCD_cmd(0x80);
+  67   1      }
+  68          
+  69          void UART_Init() {
+  70   1          TMOD = 0x20;    
+  71   1          TH1 = 0xFA;
+  72   1          TR1 = 1;        
+  73   1          SCON = 0x50;    
+  74   1      }
+  75          
+  76          void UART_SendChar(char c) {
+  77   1          SBUF = c;
+  78   1          while (!TI);    
+  79   1          TI = 0;         
+  80   1      }
+  81          
+  82          char UART_ReceiveChar() {
+  83   1          unsigned char OUT;
+  84   1          while (!RI);    
+  85   1          RI = 0; 
+  86   1          OUT=SBUF; 
+  87   1          return OUT;
+  88   1      }
+  89          
+  90          void main() {
+  91   1          unsigned char receivedChar;
+  92   1          UART_Init();  
+  93   1          while (1) {
+  94   2              receivedChar = UART_ReceiveChar();
+  95   2              UART_SendChar(receivedChar);
+  96   2              LCD_init();
+  97   2              msdelay(20);
+  98   2              if(receivedChar=='A'){
+  99   3                LCD_string("IIITG");
+ 100   3              }
+ 101   2              else if(receivedChar=='B'){
+ 102   3                LCD_string("2101202");
+ 103   3              }
+ 104   2              else if(receivedChar=='C'){
+ 105   3                LCD_string("08102003");
+C51 COMPILER V9.60.7.0   USERMENU                                                          02/26/2024 16:23:07 PAGE 3   
+
+ 106   3              }
+ 107   2              while(UART_ReceiveChar !=0);
+ 108   2          }
+ 109   1      }
+ 110          
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  10 ERROR(S)

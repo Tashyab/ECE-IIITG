@@ -1,0 +1,101 @@
+C51 COMPILER V9.60.7.0   BLINK_LED                                                         02/12/2024 14:26:20 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BLINK_LED
+OBJECT MODULE PLACED IN .\Objects\blink_led.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE blink_led.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings
+                    -\blink_led.lst) TABS(2) OBJECT(.\Objects\blink_led.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #define lcd_data P1
+   3          
+   4          int i;
+   5          
+   6          sbit rs=P0^0;
+   7          sbit en=P0^2;
+   8          
+   9          void msdelay(int ms)
+  10          {
+  11   1        
+  12   1        for(i=0;i<ms;i++)
+  13   1        {
+  14   2          TMOD = 0x01;
+  15   2          TH0 = 0xFC;
+  16   2          TL0 = 0x18;
+  17   2          TR0 = 1;
+  18   2        
+  19   2          while(TF0 != 1);
+  20   2          TR0 = 0;
+  21   2          TF0 = 0;
+  22   2        }
+  23   1      }
+  24          void LCD_cmd(unsigned char a)
+  25          {
+  26   1        lcd_data = a;
+  27   1        rs = 0;
+  28   1        en = 1;
+  29   1        msdelay(1);
+  30   1        en = 0;
+  31   1        msdelay(5);
+  32   1        
+  33   1      }
+  34          void LCD_init(void)
+  35          {
+  36   1        msdelay(20);
+  37   1        LCD_cmd(0x38);
+  38   1        LCD_cmd(0x0C);
+  39   1        LCD_cmd(0x06);
+  40   1        LCD_cmd(0x01);
+  41   1        LCD_cmd(0x80);
+  42   1        
+  43   1      }
+  44          
+  45          void LCD_char(char a)
+  46          {
+  47   1        lcd_data = a;
+  48   1        rs = 1;
+  49   1        en = 1;
+  50   1        msdelay(1);
+  51   1        en = 0;
+  52   1        msdelay(5);
+  53   1        
+  54   1      }
+C51 COMPILER V9.60.7.0   BLINK_LED                                                         02/12/2024 14:26:20 PAGE 2   
+
+  55          
+  56          void LCD_string(char *s)
+  57          {
+  58   1        while(*s)
+  59   1        {
+  60   2          LCD_char(*s++);
+  61   2        }
+  62   1      }
+  63          
+  64          
+  65          
+  66          void main()
+  67          {
+  68   1        
+  69   1        LCD_init();
+  70   1        msdelay(20);
+  71   1        LCD_cmd(0x86);
+  72   1        LCD_string("IIITG");
+  73   1        while(1);
+  74   1          
+  75   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    178    ----
+   CONSTANT SIZE    =      6    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

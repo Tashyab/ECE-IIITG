@@ -1,0 +1,7 @@
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\project1.cydsn\project1.cyprj|0185f969-d7c5-4de9-a3b3-d653ca464848
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d38a4118-0351-4652-829b-0d89f83b7c09
+C:\Users\Acer\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|8a52a5c5-a607-4514-8c53-4b6805e7040d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|6db28fdd-6dc6-4e0e-9881-d6d826de222f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|c440f351-2b32-479f-8817-9994afefe855
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|f62c7bd1-2b7d-4d01-ae9d-9ddd0c1998c9
+C:\Users\Acer\3D Objects\Class Notes\PSoC\Workspace_1\endsem_LED.cydsn\endsem_LED.cyprj|02949bcc-eea2-4e8d-9f8d-83bf938b7661

@@ -1,0 +1,253 @@
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        03/11/2024 14:44:24 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE CALCULATOR
+OBJECT MODULE PLACED IN .\Objects\calculator.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE calculator.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\calculator.lst) TABS(2) OBJECT(.\Objects\calculator.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <stdio.h>
+   3          #include <stdlib.h>
+   4          #include <math.h>
+   5          
+   6          
+   7          #define BAUDRATE 4800
+   8          
+   9          #define lcd_data P1
+  10          
+  11          sbit rs = P0^0;
+  12          sbit en = P0^2;
+  13          int i=0;
+  14          
+  15          void UART_Init() {
+  16   1          TMOD = 0x20;    
+  17   1          TH1 = 0xFA;
+  18   1          TR1 = 1;        
+  19   1          SCON = 0x50;    
+  20   1      }
+  21          void msdelay(int ms){
+  22   1          for (i=0;i<ms;i++)
+  23   1        {
+  24   2          TH0=0xFC;
+  25   2          TL0=0X66;
+  26   2          TR0=1;
+  27   2          while(TF0==0);
+  28   2          TR0=0;
+  29   2          TF0=0;
+  30   2        }
+  31   1      }
+  32          
+  33          void LCD_cmd(unsigned char a){
+  34   1        lcd_data=a;
+  35   1        rs=0;
+  36   1        en=1;
+  37   1        msdelay(1);
+  38   1        en=0;
+  39   1        msdelay(5);
+  40   1        
+  41   1      }
+  42          
+  43          void LCD_init(){
+  44   1        TMOD=0x21;
+  45   1        msdelay(20);
+  46   1        LCD_cmd(0x38);
+  47   1        LCD_cmd(0x0C);
+  48   1        LCD_cmd(0X06);
+  49   1        LCD_cmd(0X01);
+  50   1        LCD_cmd(0X80);
+  51   1      }
+  52          
+  53          void LCD_char(char a){
+  54   1        lcd_data=a;
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        03/11/2024 14:44:24 PAGE 2   
+
+  55   1        rs=1;
+  56   1        en=1;
+  57   1        msdelay(1);
+  58   1        en = 0;
+  59   1        msdelay(2);
+  60   1      }
+  61          
+  62          void LCD_string(char*s)
+  63          {
+  64   1        while(*s){
+  65   2          LCD_char(*s++);
+  66   2        }
+  67   1      }
+  68          
+  69          
+  70          void UART_SendChar(char c) {
+  71   1          SBUF = c;
+  72   1          while (!TI);    
+  73   1          TI = 0;         
+  74   1      }
+  75          
+  76          char UART_ReceiveChar() {
+  77   1          while (!RI);   
+  78   1          RI = 0;         
+  79   1          return SBUF;
+  80   1      }
+  81          
+  82          void displayString(char* str) {
+  83   1          while (*str != '\0') {
+  84   2              UART_SendChar(*str++);
+  85   2          }
+  86   1      }
+  87          
+  88          void displayMenu() {
+  89   1          char *menu = "\n\nThe Calculator\n\n"
+  90   1                       "Choose Operation:\n"
+  91   1                       "1: Addition\n"
+  92   1                       "2: Subtraction\n"
+  93   1                       "3: Multiplication\n"
+  94   1                       "4: Division\n"
+  95   1                       "5: Power\n"
+  96   1                       "6: Logarithm\n"
+  97   1                       "7: Sine\n"
+  98   1                       "8: Cosine\n"
+  99   1                       "9: Tangent\n"
+ 100   1                       "Enter your choice: ";
+ 101   1          displayString(menu);
+ 102   1      }
+ 103          
+ 104          float getOperand() {
+ 105   1          char buffer[10];
+ 106   1          char c;
+ 107   1          int i = 0;
+ 108   1      
+ 109   1          while ((c = UART_ReceiveChar()) != '\n' && i < 9) {
+ 110   2              buffer[i++] = c;
+ 111   2              UART_SendChar(c);
+ 112   2          }
+ 113   1          buffer[i] = '\0';
+ 114   1      
+ 115   1          return atof(buffer);
+ 116   1      }
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        03/11/2024 14:44:24 PAGE 3   
+
+ 117          
+ 118          void performOperation(char choice, float operand1, float operand2) {
+ 119   1          float result;
+ 120   1          char result_str[20];
+ 121   1      
+ 122   1          switch (choice) {
+ 123   2              case '1':
+ 124   2                  result = operand1 + operand2;
+ 125   2                  break;
+ 126   2              case '2':
+ 127   2                  result = operand1 - operand2;
+ 128   2                  break;
+ 129   2              case '3':
+ 130   2                  result = operand1 * operand2;
+ 131   2                  break;
+ 132   2              case '4':
+ 133   2                  if (operand2 != 0)
+ 134   2                      result = operand1 / operand2;
+ 135   2                  else {
+ 136   3                      displayString("\nError: Division by zero\n");
+ 137   3                      return;
+ 138   3                  }
+ 139   2                  break;
+ 140   2              case '5':
+ 141   2                  result = pow(operand1, operand2);
+ 142   2      //            while(operand2--) {
+ 143   2      //                result *= operand1;
+ 144   2      //            }
+ 145   2                  break;
+ 146   2              case '6':
+ 147   2                  if (operand1 > 0 && operand2 > 0)
+ 148   2                      result = log(operand1) / log(operand2);
+ 149   2                  else {
+ 150   3                      displayString("\nError: Operand or base cannot be zero or negative\n");
+ 151   3                      return;
+ 152   3                  }
+ 153   2                  break;
+ 154   2              case '7':
+ 155   2                  operand1 = operand1 * 3.1416 / 180;
+ 156   2                  result = sin(operand1);
+ 157   2                  break;
+ 158   2              case '8':
+ 159   2                  operand1 = operand1 * 3.1416 / 180;
+ 160   2                  result = cos(operand1);
+ 161   2                  break;
+ 162   2              case '9':
+ 163   2                  operand1 = operand1 * 3.1416 / 180;
+ 164   2                  result = tan(operand1);
+ 165   2                  break;
+ 166   2              default:
+ 167   2                  displayString("\nInvalid choice\n");
+ 168   2                  return;
+ 169   2          }
+ 170   1      
+ 171   1          sprintf(result_str, "\nResult: %.2f\n", result);
+ 172   1          displayString(result_str);
+ 173   1          LCD_string(result_str);
+ 174   1      }
+ 175          
+ 176          void calculator(){
+ 177   1        
+ 178   1         UART_Init();
+C51 COMPILER V9.60.7.0   CALCULATOR                                                        03/11/2024 14:44:24 PAGE 4   
+
+ 179   1          
+ 180   1          while(1){
+ 181   2              char choice;
+ 182   2            
+ 183   2              displayMenu();
+ 184   2              choice = UART_ReceiveChar();
+ 185   2      
+ 186   2              LCD_cmd(0x01);
+ 187   2            
+ 188   2              if(choice == '1' || choice == '2' || choice == '3' || choice == '4' || choice == '5' || choice == 
+             -'6'){
+ 189   3                  float operand1, operand2;
+ 190   3      
+ 191   3                  displayString("\nEnter first number: ");
+ 192   3                  operand1 = getOperand();
+ 193   3      
+ 194   3                  displayString("\nEnter second number: ");
+ 195   3                  operand2 = getOperand();
+ 196   3      
+ 197   3                  performOperation(choice, operand1, operand2);
+ 198   3                  return ;  
+ 199   3              } 
+ 200   2              else  if(choice == '7' || choice == '8' || choice == '9'){
+ 201   3                  float operand1, operand2;
+ 202   3      
+ 203   3                  displayString("\nEnter the number: ");
+ 204   3                  operand1 = getOperand();
+ 205   3                  operand2 = 0;
+ 206   3                
+ 207   3                  performOperation(choice, operand1, operand2);
+ 208   3                  return ;
+ 209   3              }
+ 210   2              else{
+ 211   3                  displayString("\nInvalid choice. Retry.\n");
+ 212   3                  return ;
+ 213   3              }
+ 214   2          }
+ 215   1      }
+ 216          
+ 217          void main(){
+ 218   1        LCD_init();
+ 219   1        while(1){
+ 220   2          calculator();
+ 221   2        }
+ 222   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    960    ----
+   CONSTANT SIZE    =    364    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      58
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

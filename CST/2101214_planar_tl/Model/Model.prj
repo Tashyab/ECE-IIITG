@@ -1,0 +1,21 @@
+[Version]
+2
+[ProjectVersion]
+'# MWS Version: Version 2019.0 - Sep 20 2018 - ACIS 28.0.2 -
+[Author]
+Acer
+[Mesh Cells]
+98,637
+[Mesh Type]
+Hexahedral
+[Last Problem Type]
+High Frequency
+[Last Solver Type]
+HF Time Domain
+[Last Solver Type Abb]
+t
+[Results]
+Time Domain: S-Parameter
+[Modeler Unique ID]
+5:2101214_planar_tl.cst?465a85fbc6845eb64304d7e7c626f518?8176:numberofparameters=0:port=1>mode=1>zre=0>zim=0
+[Comment]

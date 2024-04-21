@@ -1,0 +1,4 @@
+The Character class is a subclass of Object class and it wraps a value of the primitive type char in an object.
+An object of type Character contains a single field whose type is char.
+We can check whether the given character in a string is a number/letter by using isDigit() method of Character class.
+The isDigit() method is a static method and determines if the specified character is a digit.

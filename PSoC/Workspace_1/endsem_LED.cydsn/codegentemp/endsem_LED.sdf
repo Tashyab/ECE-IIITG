@@ -1,0 +1,20 @@
+(DELAYFILE
+ (SDFVERSION "IEEE 1497 4.0")
+ (DATE "2024-04-16T09:38:00Z")
+ (DESIGN "endsem_LED")
+ (VENDOR "Cypress Semiconductor")
+ (PROGRAM "PSoC Creator")
+ (VERSION " 4.4")
+ (DIVIDER .)
+ (TIMESCALE 1 ns)
+ (CELL
+  (CELLTYPE "endsem_LED")
+  (INSTANCE *)
+  (DELAY
+   (ABSOLUTE
+    (INTERCONNECT LED1\(0\)_PAD LED1\(0\).pad_in (0.000:0.000:0.000))
+    (INTERCONNECT LED2\(0\)_PAD LED2\(0\).pad_in (0.000:0.000:0.000))
+   )
+  )
+ )
+)
